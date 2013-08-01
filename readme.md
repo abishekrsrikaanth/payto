@@ -1,1 +1,1 @@
-##Payto Readme
+#Laravel 4 package for integrating with multiple gateways
