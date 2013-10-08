@@ -2,7 +2,8 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class PaytoServiceProvider extends ServiceProvider {
+class PaytoServiceProvider extends ServiceProvider
+{
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -28,7 +29,10 @@ class PaytoServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app['payto'] = $this->app->share(function($app)
+		{
+			return new Payto();
+		});
 	}
 
 	/**
@@ -38,7 +42,7 @@ class PaytoServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('payto');
 	}
 
 }
