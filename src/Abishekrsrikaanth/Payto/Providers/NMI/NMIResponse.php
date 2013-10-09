@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Abishek
- * Date: 10/9/13
- * Time: 2:02 PM
- * To change this template use File | Settings | File Templates.
- */
 
 namespace Abishekrsrikaanth\Payto\Providers\NMI;
 
