@@ -1,0 +1,45 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: Abishek
+ * Date: 10/9/13
+ * Time: 2:02 PM
+ * To change this template use File | Settings | File Templates.
+ */
+
+namespace Abishekrsrikaanth\Payto\Providers\NMI;
+
+use Abishekrsrikaanth\Payto\Providers\BaseProviderResponse;
+
+class NMIResponse extends BaseProviderResponse
+{
+	public function __construct($response) {
+		$responseObj   = explode('&', $response);
+		$responseArray = array();
+		for ($i = 0; $i < count($responseObj); $i++) {
+			$rdata                                = explode("=", $responseObj[$i]);
+			$responseArray[strtoupper($rdata[0])] = $rdata[1];
+		}
+		$this->setResponse($responseArray['RESPONSE']);
+		$this->setResponseText($responseArray['RESPONSETEXT']);
+		$this->setTransactionId($responseArray['TRANSACTIONID']);
+		$this->setIsSuccessFull($this->_response == 1 ? true : false);
+
+	}
+
+	protected function setResponse($response) {
+		$this->_response = $response;
+	}
+
+	protected function setResponseText($responseText) {
+		$this->_responseText = $responseText;
+	}
+
+	protected function setTransactionId($transactionId) {
+		$this->_transactionId = $transactionId;
+	}
+
+	protected function setIsSuccessFull($isSuccessFull) {
+		$this->_isSuccessFull = $isSuccessFull;
+	}
+}

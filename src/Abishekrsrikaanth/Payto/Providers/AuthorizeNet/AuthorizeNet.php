@@ -130,7 +130,6 @@ class AuthorizeNet extends BaseProvider
 			throw new ProviderException('The Transaction Descriptor is missing');
 		else {
 			$this->_requestData['x_description'] = $this->_descriptor;
-			$this->_requestData['x_label']       = $this->_descriptor;
 		}
 
 		if (empty($this->_firstName))

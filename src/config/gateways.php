@@ -26,5 +26,9 @@ return array(
 		'tcp_timeout'         => '',
 		'print_xml'           => '0',
 	),
-	'nmi'     => array()
+	'nmi'     => array(
+		'login'       => '',
+		'password'    => '',
+		'environment' => 'sandbox'
+	)
 );
