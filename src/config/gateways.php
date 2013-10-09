@@ -1,8 +1,10 @@
 <?php
 return array(
 	'authnet' => array(
-		'login' => 'abishek',
-		'token' => ''
+		'login'              => '',
+		'transaction_key'    => '',
+		'environment'        => 'sandbox',
+		'response_delimiter' => '|'
 	),
 	'paypal'  => array(),
 	'litle'   => array(

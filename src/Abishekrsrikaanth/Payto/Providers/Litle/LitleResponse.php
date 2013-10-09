@@ -4,11 +4,14 @@ use Abishekrsrikaanth\Payto\Providers\BaseProviderResponse;
 
 class LitleResponse extends BaseProviderResponse
 {
-	public function __construct($response, $responseText, $transactionId, $isSuccessFull) {
+	public function __construct($response, $responseText, $transactionId) {
 		$this->setResponse($response);
 		$this->setResponseText($responseText);
 		$this->setTransactionId($transactionId);
-		$this->setIsSuccessFull($isSuccessFull);
+		if (trim($response) == '000')
+			$this->setIsSuccessFull(true);
+		else
+			$this->setIsSuccessFull(false);
 	}
 
 	protected function setResponse($response) {

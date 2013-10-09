@@ -27,6 +27,9 @@ abstract class BaseProvider implements ProviderInterface
 	protected $_transactionId;
 	protected $_refundAmount;
 	protected $_orderId;
+	protected $_currencyCode = 'USD';
+
+	protected $_authCode;
 
 	function setFirstName($firstName) {
 		$this->_firstName = $firstName;
@@ -138,6 +141,18 @@ abstract class BaseProvider implements ProviderInterface
 
 	function setOrderId($orderId) {
 		$this->_orderId = $orderId;
+
+		return $this;
+	}
+
+	function setAuthorizationCode($authCode) {
+		$this->_authCode = $authCode;
+
+		return $this;
+	}
+
+	function setCurrencyCode($currencyCode) {
+		$this->_currencyCode = $currencyCode;
 
 		return $this;
 	}

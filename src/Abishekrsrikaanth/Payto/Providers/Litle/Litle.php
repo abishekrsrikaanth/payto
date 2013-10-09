@@ -241,6 +241,6 @@ class Litle extends BaseProvider
 		$responseText  = strtoupper(XMLParser::getNode($responseObj, 'message'));
 		$transactionId = XMLParser::getNode($responseObj, 'litleTxnId');
 
-		return new LitleResponse($response, $responseText, $transactionId, true);
+		return new LitleResponse($response, $responseText, $transactionId);
 	}
 }
