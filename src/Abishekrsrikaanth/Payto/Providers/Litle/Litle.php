@@ -4,7 +4,6 @@ namespace Abishekrsrikaanth\Payto\Providers\Litle;
 
 use Abishekrsrikaanth\Payto\Providers\BaseProvider;
 use Abishekrsrikaanth\Payto\Providers\Litle\lib\LitleOnlineRequest;
-use Abishekrsrikaanth\Payto\Providers\Litle\lib\XMLParser;
 use Abishekrsrikaanth\Payto\Providers\ProviderException;
 
 class Litle extends BaseProvider
@@ -237,10 +236,6 @@ class Litle extends BaseProvider
 	}
 
 	protected function _processResponse($responseObj) {
-		$response      = strtoupper(XMLParser::getNode($responseObj, 'response'));
-		$responseText  = strtoupper(XMLParser::getNode($responseObj, 'message'));
-		$transactionId = XMLParser::getNode($responseObj, 'litleTxnId');
-
-		return new LitleResponse($response, $responseText, $transactionId);
+		return new LitleResponse($responseObj);
 	}
 }
