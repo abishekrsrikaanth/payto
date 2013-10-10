@@ -5,10 +5,7 @@ use Abishekrsrikaanth\Payto\Providers\Litle\lib\XMLParser;
 
 class LitleResponse extends BaseProviderResponse
 {
-	private $_responseObject;
-
-	public function __construct($responseObj)
-	{
+	public function __construct($responseObj) {
 		$response      = strtoupper(XMLParser::getNode($responseObj, 'response'));
 		$responseText  = strtoupper(XMLParser::getNode($responseObj, 'message'));
 		$transactionId = XMLParser::getNode($responseObj, 'litleTxnId');
@@ -16,37 +13,30 @@ class LitleResponse extends BaseProviderResponse
 		$this->setResponse($response);
 		$this->setResponseText($responseText);
 		$this->setTransactionId($transactionId);
-		if (trim($response) == '000')
-			$this->setIsSuccessFull(true);
-		else
-			$this->setIsSuccessFull(false);
+		$this->setIsSuccessFull(trim($response) == '000' ? true : false);
 
-		$obj                   = simplexml_load_string($responseObj);
-		$this->_responseObject = json_decode(json_encode($obj), true);
+		$obj = simplexml_load_string($responseObj);
+		$this->setResponseObject(json_decode(json_encode($obj), true));
 	}
 
-	protected function setResponse($response)
-	{
+	protected function setResponse($response) {
 		$this->_response = $response;
 	}
 
-	protected function setResponseText($responseText)
-	{
+	protected function setResponseText($responseText) {
 		$this->_responseText = $responseText;
 	}
 
-	protected function setTransactionId($transactionId)
-	{
+	protected function setTransactionId($transactionId) {
 		$this->_transactionId = $transactionId;
 	}
 
-	protected function setIsSuccessFull($isSuccessFull)
-	{
+	protected function setIsSuccessFull($isSuccessFull) {
 		$this->_isSuccessFull = $isSuccessFull;
 	}
 
-	public function getResponseObject()
-	{
-		return $this->_responseObject;
+	protected function setResponseObject($responseObject) {
+		$this->_responseObject = $responseObject;
 	}
+
 }

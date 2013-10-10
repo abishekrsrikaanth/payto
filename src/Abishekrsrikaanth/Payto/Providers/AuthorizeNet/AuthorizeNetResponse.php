@@ -5,11 +5,9 @@ use Illuminate\Support\Facades\Config;
 
 class AuthorizeNetResponse extends BaseProviderResponse
 {
-	private $_responseObj = array();
-
 	public function __construct($response) {
-		$responseArray     = explode(Config::get('payto::gateways.authnet.response_delimiter'), $response);
-		$this->responseObj = array(
+		$responseArray = explode(Config::get('payto::gateways.authnet.response_delimiter'), $response);
+		$responseObj   = array(
 			'response_code'         => $responseArray[0],
 			'response_subcode'      => $responseArray[1],
 			'response_reason_code'  => $responseArray[2],
@@ -56,13 +54,15 @@ class AuthorizeNetResponse extends BaseProviderResponse
 			'requested_amount'      => $responseArray[53],
 			'balance_on_card'       => $responseArray[54],
 		);
-		$this->setResponse($this->responseObj['response_code']);
-		$this->setResponseText($this->responseObj['response_reason_text']);
-		$this->setTransactionId($this->responseObj['transaction_id']);
+		$this->setResponse($responseObj['response_code']);
+		$this->setResponseText($responseObj['response_reason_text']);
+		$this->setTransactionId($responseObj['transaction_id']);
 		if (trim($this->_response) == 1)
 			$this->setIsSuccessFull(true);
 		else
 			$this->setIsSuccessFull(false);
+
+		$this->setResponseObject($responseObj);
 	}
 
 	protected function setResponse($response) {
@@ -81,11 +81,11 @@ class AuthorizeNetResponse extends BaseProviderResponse
 		$this->_isSuccessFull = $isSuccessFull;
 	}
 
-	public function getAuthorizationCode() {
-		return $this->_responseObj['authorization_code'];
+	protected function setResponseObject($responseObject) {
+		$this->_responseObject = $responseObject;
 	}
 
-	public function getResponseObj() {
-		return $this->_responseObj;
+	public function getAuthorizationCode() {
+		return $this->_responseObject['authorization_code'];
 	}
 }

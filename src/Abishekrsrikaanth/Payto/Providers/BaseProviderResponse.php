@@ -9,6 +9,7 @@ abstract class BaseProviderResponse
 	protected $_responseText;
 	protected $_transactionId;
 	protected $_isSuccessFull;
+	protected $_responseObject;
 
 	public function getResponse() {
 		return $this->_response;
@@ -26,6 +27,10 @@ abstract class BaseProviderResponse
 		return $this->_isSuccessFull;
 	}
 
+	public function getResponseObject(){
+		return $this->_responseObject;
+	}
+
 	abstract protected function setResponse($response);
 
 	abstract protected function setResponseText($responseText);
@@ -33,4 +38,6 @@ abstract class BaseProviderResponse
 	abstract protected function setTransactionId($transactionId);
 
 	abstract protected function setIsSuccessFull($isSuccessFull);
+
+	abstract protected function setResponseObject($responseObject);
 }
