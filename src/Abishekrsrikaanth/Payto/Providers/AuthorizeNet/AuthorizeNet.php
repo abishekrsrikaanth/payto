@@ -16,10 +16,14 @@ class AuthorizeNet extends BaseProvider
 			"x_version"        => "3.1",
 			"x_delim_data"     => "TRUE",
 			"x_delim_char"     => Config::get('payto::gateways.authnet.response_delimiter'),
-			"x_relay_response" => "FALSE",
+			"x_relay_response" => "FALSE"
 		);
 	}
 
+	/**
+	 * @return AuthorizeNetResponse
+	 * @throws \Abishekrsrikaanth\Payto\Providers\ProviderException
+	 */
 	public function authorize() {
 		if (empty($this->_cardNumber))
 			throw new ProviderException("The Card Number is missing");
@@ -105,6 +109,10 @@ class AuthorizeNet extends BaseProvider
 		return $this->_processResponse($response);
 	}
 
+	/**
+	 * @return AuthorizeNetResponse
+	 * @throws \Abishekrsrikaanth\Payto\Providers\ProviderException
+	 */
 	public function sale() {
 		if (empty($this->_cardNumber))
 			throw new ProviderException("The Card Number is missing");
@@ -189,6 +197,10 @@ class AuthorizeNet extends BaseProvider
 		return $this->_processResponse($response);
 	}
 
+	/**
+	 * @return AuthorizeNetResponse
+	 * @throws \Abishekrsrikaanth\Payto\Providers\ProviderException
+	 */
 	public function void() {
 		if (empty($this->_transactionId))
 			throw new ProviderException('The Transaction Id is missing');
@@ -202,6 +214,10 @@ class AuthorizeNet extends BaseProvider
 		return $this->_processResponse($response);
 	}
 
+	/**
+	 * @return AuthorizeNetResponse
+	 * @throws \Abishekrsrikaanth\Payto\Providers\ProviderException
+	 */
 	public function refund() {
 		if (empty($this->_cardNumber))
 			throw new ProviderException("The Card Number is missing");
@@ -225,6 +241,10 @@ class AuthorizeNet extends BaseProvider
 		return $this->_processResponse($response);
 	}
 
+	/**
+	 * @return AuthorizeNetResponse
+	 * @throws \Abishekrsrikaanth\Payto\Providers\ProviderException
+	 */
 	public function capture() {
 		if (empty($this->_cardNumber))
 			throw new ProviderException("The Card Number is missing");
