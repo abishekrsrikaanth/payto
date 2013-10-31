@@ -5,8 +5,7 @@ use Abishekrsrikaanth\Payto\Providers\Litle\lib\XMLParser;
 
 class LitleResponse extends BaseProviderResponse
 {
-    public function __construct($responseObj)
-    {
+    public function __construct($responseObj) {
         $response      = strtoupper(XMLParser::getNode($responseObj, 'response'));
         $responseText  = strtoupper(XMLParser::getNode($responseObj, 'message'));
         $transactionId = XMLParser::getNode($responseObj, 'litleTxnId');
@@ -16,32 +15,27 @@ class LitleResponse extends BaseProviderResponse
         $this->setTransactionId($transactionId);
         $this->setIsSuccessFull(trim($response) == '000' ? true : false);
 
-        $obj = simplexml_load_string($responseObj);
+        $obj = simplexml_load_string($responseObj->saveXML());
         $this->setResponseObject(json_decode(json_encode($obj), true));
     }
 
-    protected function setResponse($response)
-    {
+    protected function setResponse($response) {
         $this->_response = $response;
     }
 
-    protected function setResponseText($responseText)
-    {
+    protected function setResponseText($responseText) {
         $this->_responseText = $responseText;
     }
 
-    protected function setTransactionId($transactionId)
-    {
+    protected function setTransactionId($transactionId) {
         $this->_transactionId = $transactionId;
     }
 
-    protected function setIsSuccessFull($isSuccessFull)
-    {
+    protected function setIsSuccessFull($isSuccessFull) {
         $this->_isSuccessFull = $isSuccessFull;
     }
 
-    protected function setResponseObject($responseObject)
-    {
+    protected function setResponseObject($responseObject) {
         $this->_responseObject = $responseObject;
     }
 
