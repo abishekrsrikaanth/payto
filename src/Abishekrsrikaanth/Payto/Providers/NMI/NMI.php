@@ -11,8 +11,8 @@ class NMI extends BaseProvider
     private $_requestData = array();
     private $_apiUrl = 'https://secure.networkmerchants.com/api/transact.php';
 
-
-    public function sale() {
+    public function sale()
+    {
         if (empty($this->_cardNumber))
             throw new ProviderException("The Card Number is missing");
         else
@@ -95,7 +95,8 @@ class NMI extends BaseProvider
         return $this->_processResponse($response);
     }
 
-    public function void() {
+    public function void()
+    {
         if (empty($this->_transactionId))
             throw new ProviderException("The Transaction Id for the refund is missing");
         else
@@ -107,7 +108,8 @@ class NMI extends BaseProvider
         return $this->_processResponse($response);
     }
 
-    public function refund() {
+    public function refund()
+    {
         if (empty($this->_transactionId))
             throw new ProviderException("The Transaction Id for the refund is missing");
         else
@@ -124,7 +126,8 @@ class NMI extends BaseProvider
         return $this->_processResponse($response);
     }
 
-    public function authorize() {
+    public function authorize()
+    {
         if (empty($this->_cardNumber))
             throw new ProviderException("The Card Number is missing");
         else
@@ -207,7 +210,8 @@ class NMI extends BaseProvider
         return $this->_processResponse($response);
     }
 
-    public function capture() {
+    public function capture()
+    {
         if (empty($this->_transactionId))
             throw new ProviderException("The Transaction Id for the refund is missing");
         else
@@ -224,7 +228,8 @@ class NMI extends BaseProvider
         return $this->_processResponse($response);
     }
 
-    protected function _execute() {
+    protected function _execute()
+    {
         $login    = Config::get('payto::gateways.nmi.login');
         $password = Config::get('payto::gateways.nmi.password');
         $env      = Config::get('payto::gateways.nmi.environment');
@@ -245,7 +250,6 @@ class NMI extends BaseProvider
         } else
             $this->_requestData['password'] = $env == "sandbox" ? "password" : $password;
 
-
         $client = new Client($this->_apiUrl, array(
             'curl.options' => array(
                 'CURLOPT_SSLVERSION' => '3'
@@ -257,7 +261,8 @@ class NMI extends BaseProvider
         return $request->send()->getBody(true);
     }
 
-    protected function _processResponse($response) {
+    protected function _processResponse($response)
+    {
         return new NMIResponse($response);
     }
 }

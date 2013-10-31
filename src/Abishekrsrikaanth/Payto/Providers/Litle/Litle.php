@@ -8,234 +8,255 @@ use Abishekrsrikaanth\Payto\Providers\ProviderException;
 
 class Litle extends BaseProvider
 {
-	private $_orderSource;
+    private $_orderSource;
 
-	public function setOrderSource($orderSource) {
-		$this->_orderSource = $orderSource;
+    public function setOrderSource($orderSource)
+    {
+        $this->_orderSource = $orderSource;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function sale() {
-		$data = array();
+    public function sale()
+    {
+        $data = array();
 
-		if (empty($this->_orderTotal))
-			throw new ProviderException('The Order Total is missing');
-		else
-			$data['amount'] = $this->_orderTotal;
+        if (empty($this->_orderTotal))
+            throw new ProviderException('The Order Total is missing');
+        else
+            $data['amount'] = $this->_orderTotal;
 
-		if (empty($this->_orderId))
-			throw new ProviderException('The Order Id is missing');
-		else
-			$data['orderId'] = $this->_orderId;
+        if (empty($this->_orderId))
+            throw new ProviderException('The Order Id is missing');
+        else
+            $data['orderId'] = $this->_orderId;
 
-		$billingAddress = array();
-		if (empty($this->_firstName) || empty($this->_lastName))
-			throw new ProviderException('The Customer Billing Name is missing');
-		else
-			$billingAddress['name'] = $this->_firstName . ' ' . $this->_lastName;
+        $billingAddress = array();
+        if (empty($this->_firstName) || empty($this->_lastName))
+            throw new ProviderException('The Customer Billing Name is missing');
+        else
+            $billingAddress['name'] = $this->_firstName . ' ' . $this->_lastName;
 
-		if (empty($this->_address))
-			throw new ProviderException('The Billing Address is missing');
-		else
-			$billingAddress['addressLine1'] = $this->_address;
+        if (empty($this->_address))
+            throw new ProviderException('The Billing Address is missing');
+        else
+            $billingAddress['addressLine1'] = $this->_address;
 
-		if (empty($this->_city))
-			throw new ProviderException('The Billing City is missing');
-		else
-			$billingAddress['city'] = $this->_city;
+        if (empty($this->_city))
+            throw new ProviderException('The Billing City is missing');
+        else
+            $billingAddress['city'] = $this->_city;
 
-		if (empty($this->_state))
-			throw new ProviderException('The Billing State is missing');
-		else
-			$billingAddress['state'] = $this->_state;
+        if (empty($this->_state))
+            throw new ProviderException('The Billing State is missing');
+        else
+            $billingAddress['state'] = $this->_state;
 
-		if (empty($this->_zip))
-			throw new ProviderException('The Billing Zip is missing');
-		else
-			$billingAddress['zip'] = $this->_zip;
+        if (empty($this->_zip))
+            throw new ProviderException('The Billing Zip is missing');
+        else
+            $billingAddress['zip'] = $this->_zip;
 
-		if (empty($this->_country))
-			throw new ProviderException('The Billing Country is missing');
-		else
-			$billingAddress['country'] = $this->_country;
+        if (empty($this->_country))
+            throw new ProviderException('The Billing Country is missing');
+        else
+            $billingAddress['country'] = $this->_country;
 
-		$data['billToAddress'] = $billingAddress;
+        $data['billToAddress'] = $billingAddress;
 
-		$cardInfo = array();
+        $cardInfo = array();
 
-		if (empty($this->_cardNumber))
-			throw new ProviderException("The Card Number is missing");
-		else
-			$cardInfo['number'] = $this->_cardNumber;
+        if (empty($this->_cardNumber))
+            throw new ProviderException("The Card Number is missing");
+        else
+            $cardInfo['number'] = $this->_cardNumber;
 
-		if (empty($this->_cardNumber))
-			throw new ProviderException("The Card Expiry is missing");
-		else
-			$cardInfo['expDate'] = $this->_cardExpiry;
+        if (empty($this->_cardNumber))
+            throw new ProviderException("The Card Expiry is missing");
+        else
+            $cardInfo['expDate'] = $this->_cardExpiry;
 
-		if (empty($this->_cardCVV))
-			throw new ProviderException("The Card CVV is missing");
-		else
-			$cardInfo['cardValidationNum'] = $this->_cardCVV;
+        if (empty($this->_cardCVV))
+            throw new ProviderException("The Card CVV is missing");
+        else
+            $cardInfo['cardValidationNum'] = $this->_cardCVV;
 
-		if (empty($this->_cardType))
-			throw new ProviderException("The Card Type is missing");
-		else
-			$cardInfo['type'] = $this->_cardType;
+        if (empty($this->_cardType))
+            throw new ProviderException("The Card Type is missing");
+        else
+            $cardInfo['type'] = $this->_mapCardType($this->_cardType);
 
-		$data['card'] = $cardInfo;
+        $data['card'] = $cardInfo;
 
-		if (empty($this->_orderSource))
-			throw new ProviderException('Order Source is missing');
-		else
-			$data['orderSource'] = $this->_orderSource;
+        if (empty($this->_orderSource))
+            throw new ProviderException('Order Source is missing');
+        else
+            $data['orderSource'] = $this->_orderSource;
 
-		$initialize = new LitleOnlineRequest();
-		$response   = $initialize->saleRequest($data);
+        $initialize = new LitleOnlineRequest();
+        $response   = $initialize->saleRequest($data);
 
-		return $this->_processResponse($response);
-	}
+        return $this->_processResponse($response);
+    }
 
-	public function void() {
-		$data = array();
+    private function _mapCardType($cardType)
+    {
+        $cardTypes = array(
+            'VISA'     => 'VI',
+            'MASTER'   => 'MC',
+            'AMEX'     => 'AX',
+            'DINERS'   => 'DC',
+            'DISCOVER' => 'DI',
+            'JCB'      => 'JC'
+        );
 
-		if (empty($this->_transactionId))
-			throw new ProviderException("The Transaction Id for the refund is missing");
-		else
-			$data['litleTxnId'] = $this->_transactionId;
+        return $cardTypes[$cardType];
+    }
 
-		if (empty($this->_orderId))
-			throw new ProviderException("The Order Id for Transaction is missing");
-		else
-			$data['id'] = $this->_orderId;
+    public function void()
+    {
+        $data = array();
 
-		$initialize = new LitleOnlineRequest();
-		$response   = $initialize->voidRequest($data);
+        if (empty($this->_transactionId))
+            throw new ProviderException("The Transaction Id for the refund is missing");
+        else
+            $data['litleTxnId'] = $this->_transactionId;
 
-		return $this->_processResponse($response);
-	}
+        if (empty($this->_orderId))
+            throw new ProviderException("The Order Id for Transaction is missing");
+        else
+            $data['id'] = $this->_orderId;
 
-	public function refund() {
-		$data = array();
+        $initialize = new LitleOnlineRequest();
+        $response   = $initialize->voidRequest($data);
 
-		if (empty($this->_transactionId))
-			throw new ProviderException("The Transaction Id for the refund is missing");
-		else
-			$data['litleTxnId'] = $this->_transactionId;
+        return $this->_processResponse($response);
+    }
 
-		if (empty($this->_orderId))
-			throw new ProviderException("The Order Id for Transaction is missing");
-		else
-			$data['id'] = $this->_orderId;
+    public function refund()
+    {
+        $data = array();
 
-		if (empty($this->_refundAmount))
-			throw new ProviderException("The Refund amount is missing");
-		else
-			$data['amount'] = $this->_refundAmount;
+        if (empty($this->_transactionId))
+            throw new ProviderException("The Transaction Id for the refund is missing");
+        else
+            $data['litleTxnId'] = $this->_transactionId;
 
-		$initialize = new LitleOnlineRequest();
-		$response   = $initialize->creditRequest($data);
+        if (empty($this->_orderId))
+            throw new ProviderException("The Order Id for Transaction is missing");
+        else
+            $data['id'] = $this->_orderId;
 
-		return $this->_processResponse($response);
-	}
+        if (empty($this->_refundAmount))
+            throw new ProviderException("The Refund amount is missing");
+        else
+            $data['amount'] = $this->_refundAmount;
 
-	public function authorize() {
-		$data = array();
+        $initialize = new LitleOnlineRequest();
+        $response   = $initialize->creditRequest($data);
 
-		if (empty($this->_orderTotal))
-			throw new ProviderException('The Order Total is missing');
-		else
-			$data['amount'] = $this->_orderTotal;
+        return $this->_processResponse($response);
+    }
 
-		if (empty($this->_orderId))
-			throw new ProviderException('The Order Id is missing');
-		else
-			$data['orderId'] = $this->_orderId;
+    public function authorize()
+    {
+        $data = array();
 
-		$billingAddress = array();
-		if (empty($this->_firstName) || empty($this->_lastName))
-			throw new ProviderException('The Customer Billing Name is missing');
-		else
-			$billingAddress['name'] = $this->_firstName . ' ' . $this->_lastName;
+        if (empty($this->_orderTotal))
+            throw new ProviderException('The Order Total is missing');
+        else
+            $data['amount'] = $this->_orderTotal;
 
-		if (empty($this->_address))
-			throw new ProviderException('The Billing Address is missing');
-		else
-			$billingAddress['addressLine1'] = $this->_address;
+        if (empty($this->_orderId))
+            throw new ProviderException('The Order Id is missing');
+        else
+            $data['orderId'] = $this->_orderId;
 
-		if (empty($this->_city))
-			throw new ProviderException('The Billing City is missing');
-		else
-			$billingAddress['city'] = $this->_city;
+        $billingAddress = array();
+        if (empty($this->_firstName) || empty($this->_lastName))
+            throw new ProviderException('The Customer Billing Name is missing');
+        else
+            $billingAddress['name'] = $this->_firstName . ' ' . $this->_lastName;
 
-		if (empty($this->_state))
-			throw new ProviderException('The Billing State is missing');
-		else
-			$billingAddress['state'] = $this->_state;
+        if (empty($this->_address))
+            throw new ProviderException('The Billing Address is missing');
+        else
+            $billingAddress['addressLine1'] = $this->_address;
 
-		if (empty($this->_zip))
-			throw new ProviderException('The Billing Zip is missing');
-		else
-			$billingAddress['zip'] = $this->_zip;
+        if (empty($this->_city))
+            throw new ProviderException('The Billing City is missing');
+        else
+            $billingAddress['city'] = $this->_city;
 
-		if (empty($this->_country))
-			throw new ProviderException('The Billing Country is missing');
-		else
-			$billingAddress['country'] = $this->_country;
+        if (empty($this->_state))
+            throw new ProviderException('The Billing State is missing');
+        else
+            $billingAddress['state'] = $this->_state;
 
-		$data['billToAddress'] = $billingAddress;
+        if (empty($this->_zip))
+            throw new ProviderException('The Billing Zip is missing');
+        else
+            $billingAddress['zip'] = $this->_zip;
 
-		$cardInfo = array();
+        if (empty($this->_country))
+            throw new ProviderException('The Billing Country is missing');
+        else
+            $billingAddress['country'] = $this->_country;
 
-		if (empty($this->_cardNumber))
-			throw new ProviderException("The Card Number is missing");
-		else
-			$cardInfo['number'] = $this->_cardNumber;
+        $data['billToAddress'] = $billingAddress;
 
-		if (empty($this->_cardNumber))
-			throw new ProviderException("The Card Expiry is missing");
-		else
-			$cardInfo['expDate'] = $this->_cardExpiry;
+        $cardInfo = array();
 
-		if (empty($this->_cardCVV))
-			throw new ProviderException("The Card CVV is missing");
-		else
-			$cardInfo['cardValidationNum'] = $this->_cardCVV;
+        if (empty($this->_cardNumber))
+            throw new ProviderException("The Card Number is missing");
+        else
+            $cardInfo['number'] = $this->_cardNumber;
 
-		if (empty($this->_cardType))
-			throw new ProviderException("The Card Type is missing");
-		else
-			$cardInfo['type'] = $this->_cardType;
+        if (empty($this->_cardNumber))
+            throw new ProviderException("The Card Expiry is missing");
+        else
+            $cardInfo['expDate'] = $this->_cardExpiry;
 
-		$data['card'] = $cardInfo;
+        if (empty($this->_cardCVV))
+            throw new ProviderException("The Card CVV is missing");
+        else
+            $cardInfo['cardValidationNum'] = $this->_cardCVV;
 
-		$initialize = new LitleOnlineRequest();
-		$response   = $initialize->authorizationRequest($data);
+        if (empty($this->_cardType))
+            throw new ProviderException("The Card Type is missing");
+        else
+            $cardInfo['type'] = $this->_cardType;
 
-		return $this->_processResponse($response);
-	}
+        $data['card'] = $cardInfo;
 
-	public function capture() {
-		$data = array();
+        $initialize = new LitleOnlineRequest();
+        $response   = $initialize->authorizationRequest($data);
 
-		if (empty($this->_transactionId))
-			throw new ProviderException("The Transaction Id for the refund is missing");
-		else
-			$data['litleTxnId'] = $this->_transactionId;
+        return $this->_processResponse($response);
+    }
 
-		if (empty($this->_orderId))
-			throw new ProviderException("The Order Id for the Transaction is missing");
-		else
-			$data['id'] = $this->_orderId;
+    public function capture()
+    {
+        $data = array();
 
-		$initialize = new LitleOnlineRequest();
-		$response   = $initialize->captureRequest($data);
+        if (empty($this->_transactionId))
+            throw new ProviderException("The Transaction Id for the refund is missing");
+        else
+            $data['litleTxnId'] = $this->_transactionId;
 
-		return $this->_processResponse($response);
-	}
+        if (empty($this->_orderId))
+            throw new ProviderException("The Order Id for the Transaction is missing");
+        else
+            $data['id'] = $this->_orderId;
 
-	protected function _processResponse($responseObj) {
-		return new LitleResponse($responseObj);
-	}
+        $initialize = new LitleOnlineRequest();
+        $response   = $initialize->captureRequest($data);
+
+        return $this->_processResponse($response);
+    }
+
+    protected function _processResponse($responseObj)
+    {
+        return new LitleResponse($responseObj);
+    }
 }

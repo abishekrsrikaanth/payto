@@ -3,13 +3,13 @@ namespace Abishekrsrikaanth\Payto\Providers;
 
 interface ProviderInterface
 {
-	function authorize();
+    public function authorize();
 
-	function sale();
+    public function sale();
 
-	function void();
+    public function void();
 
-	function refund();
+    public function refund();
 
-	function capture();
+    public function capture();
 }

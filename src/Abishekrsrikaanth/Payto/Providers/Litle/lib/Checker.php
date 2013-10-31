@@ -1,7 +1,7 @@
 <?php namespace Abishekrsrikaanth\Payto\Providers\Litle\lib;
 /*
  * Copyright (c) 2011 Litle & Co.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -10,7 +10,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
@@ -24,29 +24,25 @@
  */
 class Checker
 {
-	static function requiredField($value)
-	{
-		if ($value != null)
-		{
-			return $value;
-		}
-		else
-		{
-			return "REQUIRED";
-		}
-	}
+    public static function requiredField($value)
+    {
+        if ($value != null) {
+            return $value;
+        } else {
+            return "REQUIRED";
+        }
+    }
 
-	static function choice($choiceArray)
-	{
-		$i= 0;
-		for($y=0;$y<count($choiceArray);$y++){
-			if (isset($choiceArray[$y])){
-				$i++;
-			}
-		}
-		if ( $i > 1)
-		{
-			throw new \InvalidArgumentException("Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!");
-		}
-	}
+    public static function choice($choiceArray)
+    {
+        $i= 0;
+        for ($y=0;$y<count($choiceArray);$y++) {
+            if (isset($choiceArray[$y])) {
+                $i++;
+            }
+        }
+        if ($i > 1) {
+            throw new \InvalidArgumentException("Entered an Invalid Amount of Choices for a Field, please only fill out one Choice!!!!");
+        }
+    }
 }

@@ -2,167 +2,187 @@
 
 namespace Abishekrsrikaanth\Payto\Providers;
 
-
 abstract class BaseProvider implements ProviderInterface
 {
-	protected $_firstName;
-	protected $_lastName;
-	protected $_address;
-	protected $_state;
-	protected $_city;
-	protected $_zip;
-	protected $_country;
-	protected $_phone;
-	protected $_email;
+    protected $_firstName;
+    protected $_lastName;
+    protected $_address;
+    protected $_state;
+    protected $_city;
+    protected $_zip;
+    protected $_country;
+    protected $_phone;
+    protected $_email;
 
-	protected $_cardNumber;
-	protected $_cardExpiry;
-	protected $_cardCVV;
-	protected $_orderTotal;
-	protected $_descriptor;
-	protected $_cardType;
+    protected $_cardNumber;
+    protected $_cardExpiry;
+    protected $_cardCVV;
+    protected $_orderTotal;
+    protected $_descriptor;
+    protected $_cardType;
 
-	protected $_ipAddress;
+    protected $_ipAddress;
 
-	protected $_transactionId;
-	protected $_refundAmount;
-	protected $_orderId;
-	protected $_currencyCode = 'USD';
+    protected $_transactionId;
+    protected $_refundAmount;
+    protected $_orderId;
+    protected $_currencyCode = 'USD';
 
-	protected $_authCode;
+    protected $_authCode;
 
-	function setFirstName($firstName) {
-		$this->_firstName = $firstName;
+    public function setFirstName($firstName)
+    {
+        $this->_firstName = $firstName;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setLastName($lastName) {
-		$this->_lastName = $lastName;
+    public function setLastName($lastName)
+    {
+        $this->_lastName = $lastName;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setAddress($address) {
-		$this->_address = $address;
+    public function setAddress($address)
+    {
+        $this->_address = $address;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setState($state) {
-		$this->_state = $state;
+    public function setState($state)
+    {
+        $this->_state = $state;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setCity($city) {
-		$this->_city = $city;
+    public function setCity($city)
+    {
+        $this->_city = $city;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setZip($zip) {
-		$this->_zip = $zip;
+    public function setZip($zip)
+    {
+        $this->_zip = $zip;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setCountry($country) {
-		$this->_country = $country;
+    public function setCountry($country)
+    {
+        $this->_country = $country;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setPhone($phone) {
-		$this->_phone = $phone;
+    public function setPhone($phone)
+    {
+        $this->_phone = $phone;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setEmail($email) {
-		$this->_email = $email;
+    public function setEmail($email)
+    {
+        $this->_email = $email;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setCardNumber($cardNumber) {
-		$this->_cardNumber = $cardNumber;
+    public function setCardNumber($cardNumber)
+    {
+        $this->_cardNumber = $cardNumber;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setCardExpiry($expiry) {
-		$this->_cardExpiry = $expiry;
+    public function setCardExpiry($expiry)
+    {
+        $this->_cardExpiry = $expiry;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setCardCVV($cvv) {
-		$this->_cardCVV = $cvv;
+    public function setCardCVV($cvv)
+    {
+        $this->_cardCVV = $cvv;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setCardType($cardType) {
-		$this->_cardType = $cardType;
+    public function setCardType($cardType)
+    {
+        $this->_cardType = $cardType;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setOrderTotal($orderTotal) {
-		$this->_orderTotal = $orderTotal;
+    public function setOrderTotal($orderTotal)
+    {
+        $this->_orderTotal = $orderTotal;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setDescriptor($descriptor) {
-		$this->_descriptor = $descriptor;
+    public function setDescriptor($descriptor)
+    {
+        $this->_descriptor = $descriptor;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setIPAddress($ipAddress) {
-		$this->_ipAddress = $ipAddress;
+    public function setIPAddress($ipAddress)
+    {
+        $this->_ipAddress = $ipAddress;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setTransactionId($transactionId) {
-		$this->_transactionId = $transactionId;
+    public function setTransactionId($transactionId)
+    {
+        $this->_transactionId = $transactionId;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setRefundAmount($refundAmount) {
-		$this->_refundAmount = $refundAmount;
+    public function setRefundAmount($refundAmount)
+    {
+        $this->_refundAmount = $refundAmount;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setOrderId($orderId) {
-		$this->_orderId = $orderId;
+    public function setOrderId($orderId)
+    {
+        $this->_orderId = $orderId;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setAuthorizationCode($authCode) {
-		$this->_authCode = $authCode;
+    public function setAuthorizationCode($authCode)
+    {
+        $this->_authCode = $authCode;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function setCurrencyCode($currencyCode) {
-		$this->_currencyCode = $currencyCode;
+    public function setCurrencyCode($currencyCode)
+    {
+        $this->_currencyCode = $currencyCode;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	abstract protected function _processResponse($data);
+    abstract protected function _processResponse($data);
 }
 
 class ResponseType
 {
-	const CHARGE = 0;
-	const VOID   = 1;
-	const REFUND = 2;
+    const CHARGE = 0;
+    const VOID   = 1;
+    const REFUND = 2;
 }
